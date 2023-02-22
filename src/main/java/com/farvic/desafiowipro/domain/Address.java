@@ -18,7 +18,7 @@ import java.util.Objects;
 
 
 public class Address implements Serializable {
-        @Pattern(regexp = "^\\d{5}-?\\d{3}$",
+    @Pattern(regexp = "^\\d{5}-?\\d{3}$",
             message = "CEP inválido. Insira um cep no formato 01001000 ou 01001-000")
     private String cep;
 
