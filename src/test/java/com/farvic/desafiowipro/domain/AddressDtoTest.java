@@ -1,5 +1,6 @@
 package com.farvic.desafiowipro.domain;
 
+import com.farvic.desafiowipro.dtos.AddressDto;
 import org.junit.jupiter.api.Test;
 
 import java.util.Set;

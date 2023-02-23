@@ -1,22 +1,15 @@
 package com.farvic.desafiowipro.domain;
 
 import com.farvic.desafiowipro.utils.MoneySerializer;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import org.springframework.lang.NonNull;
 
 import javax.persistence.Column;
-import javax.persistence.Entity;
 
-import javax.persistence.Id;
-import javax.persistence.Table;
 import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Objects;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 
@@ -44,10 +37,11 @@ public class Address implements Serializable {
     @JsonProperty("uf")
     private String estado;
 
+
     @Column
     @JsonProperty("frete")
     @JsonSerialize(using = MoneySerializer.class)
-    private BigDecimal shippingValue;
+    private BigDecimal valorFrete;
 
 
 
@@ -114,25 +108,14 @@ public class Address implements Serializable {
         this.estado = estado;
     }
 
-    public BigDecimal getShippingValue() {
-        return shippingValue;
+    public BigDecimal getValorFrete() {
+        return valorFrete;
     }
 
-    public void setShippingValue(BigDecimal shippingValue) {
-        this.shippingValue = shippingValue;
+    public void setValorFrete(BigDecimal valorFrete) {
+        this.valorFrete = valorFrete;
     }
 
-    @Override
-    public String toString() {
-        return "Address{" +
-                "cep='" + cep + '\'' +
-                ", rua='" + rua + '\'' +
-                ", complemento='" + complemento + '\'' +
-                ", bairro='" + bairro + '\'' +
-                ", cidade='" + cidade + '\'' +
-                ", estado='" + estado + '\'' +
-                '}';
-    }
 
     @Override
     public boolean equals(Object o) {

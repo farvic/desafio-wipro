@@ -1,4 +1,4 @@
-package com.farvic.desafiowipro.domain;
+package com.farvic.desafiowipro.dtos;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.validation.constraints.Pattern;
