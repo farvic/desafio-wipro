@@ -28,7 +28,7 @@ public class AddressController {
     @ApiResponse(responseCode = "201", description = "OK")
     @PostMapping(value="/consulta-endereco", consumes = "application/json", produces = "application/json")
     public ResponseEntity<Address> findCep(@RequestBody AddressDto cep) {
-        return ResponseEntity.ok(addressService.findAddressByCep(cep));
+        return ResponseEntity.ok(addressService.getShippingByCep(cep));
     }
 
 }

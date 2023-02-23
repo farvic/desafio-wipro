@@ -4,6 +4,6 @@ import com.farvic.desafiowipro.domain.Address;
 import com.farvic.desafiowipro.domain.AddressDto;
 
 public interface AddressService {
-    Address findAddressByCep(AddressDto cep);
+    Address getShippingByCep(AddressDto cep);
 
 }
