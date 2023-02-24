@@ -23,8 +23,7 @@ public class Address implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonIgnore
     private long id;
-    @Pattern(regexp = "^\\d{5}-?\\d{3}$",
-            message = "CEP inválido. Insira um cep no formato 01001000 ou 01001-000")
+    @Pattern(regexp = "^(0[1-9]\\d{3}|[1-9]\\d{4})-?\\d{3}$")
     private String cep;
 
 

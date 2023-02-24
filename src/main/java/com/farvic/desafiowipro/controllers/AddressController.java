@@ -9,6 +9,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/v1")
 @Tag(name = "Address", description = "Address API")
@@ -20,14 +22,12 @@ public class AddressController {
         this.addressService = addressService;
     }
 
-
     @Operation(summary = "Buscar endereço com cep",
             description = "Busca um endereço na API doViaCep através de um cep fornecido pelo usuário",
             tags = {"Address" })
     @ApiResponse(responseCode = "201", description = "OK")
     @PostMapping(value="/consulta-endereco", consumes = "application/json", produces = "application/json")
-    public ResponseEntity<Address> getShippingByCep(@RequestBody AddressDto cep) {
+    public ResponseEntity<Address> getShippingByCep(@Valid @RequestBody AddressDto cep) {
         return ResponseEntity.ok(addressService.getShippingByCep(cep));
     }
-
 }
