@@ -47,7 +47,7 @@
 O projeto foi desenvolvido com o intuito de atender o desafio proposto no processo seletivo da WiPro.
 O desafio consiste em criar uma API com o seguinte contrato.
 
-![Alt text](/imagens/desafio.png "Optional title")
+![Contrato da API em JSON, com solicitação contendo cep e resposta contendo endereço com frete.](/imagens/desafio.png "Contrato da API")
 
 Para a busca do endereço através do CEP, a API do https://viacep.com.br/ deve ser consultada,
 enquanto que o valor do frete é fixo para cada região:
@@ -122,6 +122,45 @@ A anotação @Pattern é utilizada para definir o formato do cep, através de um
     }
 ```
 
+O erro é emitido através do tratamento de exceções globais, que captura a exceção de validação do cep.
+A implementação está na pasta ```errors```.
+
+Sendo assim, a camada de serviço já recebe apenas os ceps válidos, podendo ou não encontrar o endereço, uma vez que nem
+todos os ceps do Brasil possuem endereço cadastrado. 
+Em seguida, caso o CEP seja recebido no formato apenas números, é feita a formatação para o formato com máscara.
+Tal formatação é feita apenas para gerar um único padrão de CEP para ser utilizado como chave única,
+uma vez que as buscas anteriores são salvas na database. Isso evita que o mesmo CEP tenha dois registros diferentes.
+
+Caso o mesmo CEP seja consultado novamente, não será necessária uma nova chamada na API. Isso serve como uma forma de
+evitar que o serviço pare de funcionar caso a API fique fora do ar por alguns momentos.
+
+
+### Busca por região/frete
+
+Para a busca da região, foi utilizada uma Hash Map, que armazena o estado e a região correspondente.
+A Hash Map é utilizada para melhorar a performance da busca, uma vez que a busca é feita em O(1).
+Visualmente, o código não é tão bonito, mas a performance é melhor que outras abordagens mais limpas.
+
+```java
+private static final HashMap<String, Region> HASH_CEP_MAP = new HashMap<>();
+
+static {
+        HASH_CEP_MAP.put("AL", Region.NORDESTE);
+        HASH_CEP_MAP.put("BA", Region.NORDESTE);
+        
+        (...) // demais estados
+        
+        HASH_CEP_MAP.put("RS", Region.SUL);
+        HASH_CEP_MAP.put("SC", Region.SUL);
+        }
+
+public static Region getRegionByState(String state) {
+        return HASH_CEP_MAP.get(state);
+}
+```
+
+
+
 
 <!-- Execução -->
 ## Execução
@@ -138,56 +177,21 @@ A anotação @Pattern é utilizada para definir o formato do cep, através de um
    mvn spring-boot:run
    ```
 
+3. Para rodar testes de unidade, utilize o seguinte comando do Maven
+
+   ```bash
+   mvn test
+   ```
+
+4. Ao rodar o projeto, a documentação da API pode ser acessada através do link: [localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html)
+
+5. Ao rodar os testes de integração do cucumber, os resultados podem ser acessados através do link
+disponibilizado no prompt, como no exemplo:
 
 
-[//]: # (4. Some relevant lines from the application.properties)
+![Exemplo do link de resultados do teste do cucumber https://reports.cucumber.io/reports/{token}](/imagens/cucumber-exemplo.png "Exemplo do link de resultados dos testes de integração")
 
-[//]: # ()
-[//]: # (   ```properties)
 
-[//]: # (    # localhost:8080/)
-
-[//]: # (    port=8080)
-
-[//]: # ()
-[//]: # ()
-[//]: # (    # localhost:8080/swagger-ui/index.html)
-
-[//]: # ()
-[//]: # (    springdoc.swagger-ui.path=/swagger-ui.html)
-
-[//]: # (    springdoc.api-docs.path=/v3/api-docs)
-
-[//]: # (    sprindoc.swagger-ui.config-url=/v3/api-docs/swagger-config)
-
-[//]: # (    springdoc.swagger-ui.url=/v3/api-docs)
-
-[//]: # ()
-[//]: # ()
-[//]: # (    # H2 Database name - in memory database)
-
-[//]: # (    spring.datasource.url=jdbc:h2:mem:testdb)
-
-[//]: # (    spring.h2.console.enabled=true)
-
-[//]: # ()
-[//]: # (    # localhost:8080/h2-console)
-
-[//]: # (    spring.h2.console.path=/h2-console)
-
-[//]: # ()
-[//]: # (    spring.datasource.driverClassName=org.h2.Driver)
-
-[//]: # ()
-[//]: # (    # authentication to access the database console)
-
-[//]: # (    spring.datasource.username=sa)
-
-[//]: # (    spring.datasource.password=)
-
-[//]: # (   ```)
-
-5. Ao rodar o projeto, a documentação da API pode ser acessada através do link: [localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html)
 
 
 [//]: # ()

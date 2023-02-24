@@ -53,7 +53,7 @@ public class AddressServiceImpl implements AddressService {
             throw new AddressNotFoundException("O CEP não foi encontrado na nossa base de dados. Pedimos desculpas pelo transtorno.");
         }
 
-        region = Region.getRegionByCep(cepString);
+        region = Region.getRegionByState(address.getEstado());
         shippingValue = region.getShippingValue();
 
         address.setValorFrete(shippingValue);
