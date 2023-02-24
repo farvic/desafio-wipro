@@ -1,11 +1,12 @@
 package com.farvic.desafiowipro.domain;
 
 import com.farvic.desafiowipro.utils.MoneySerializer;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
-import javax.persistence.Column;
+import javax.persistence.*;
 
 import javax.validation.constraints.Pattern;
 import java.io.Serializable;
@@ -14,7 +15,14 @@ import java.math.BigDecimal;
 @JsonIgnoreProperties(ignoreUnknown = true)
 
 
+@Entity
+@Table(name = "address")
 public class Address implements Serializable {
+    @Id
+    @Column
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonIgnore
+    private long id;
     @Pattern(regexp = "^\\d{5}-?\\d{3}$",
             message = "CEP inválido. Insira um cep no formato 01001000 ou 01001-000")
     private String cep;
@@ -59,6 +67,14 @@ public class Address implements Serializable {
         this.estado = estado;
     }
 
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public String getCep() {
         return cep;

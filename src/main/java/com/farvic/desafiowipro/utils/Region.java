@@ -5,14 +5,11 @@ import java.math.BigDecimal;
 import java.util.TreeMap;
 
 public class Region {
+    private final BigDecimal shippingValue;
     public static final Region NORTE = new Region(BigDecimal.valueOf(20.83));
-
     public static final Region NORDESTE = new Region(BigDecimal.valueOf(15.98));
-
     public static final Region SUDESTE = new Region(BigDecimal.valueOf(7.85));
-
     public static final Region SUL = new Region(BigDecimal.valueOf(17.30));
-
     public static final Region CENTRO = new Region(BigDecimal.valueOf(12.50));
 
     private static final TreeMap<Integer, Region> CEP_MAP = new TreeMap<>();
@@ -37,9 +34,6 @@ public class Region {
     // Centro-Oeste:        70000-000 a 76799-999, 78000-000 a 79999-999
     // Norte:               66000-000 a 69999-999, 76800-000 a 77999-999
 
-
-    private final BigDecimal shippingValue;
-
     Region(BigDecimal shippingValue) {
         this.shippingValue = shippingValue;
     }
@@ -53,8 +47,5 @@ public class Region {
         int firstFiveDigits = Integer.parseInt(cep.substring(0,5));
 
         return CEP_MAP.floorEntry(firstFiveDigits).getValue();
-
     }
-
-
 }
