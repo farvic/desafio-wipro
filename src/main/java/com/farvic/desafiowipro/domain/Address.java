@@ -1,25 +1,34 @@
 package com.farvic.desafiowipro.domain;
 
+import com.farvic.desafiowipro.utils.MoneySerializer;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.springframework.lang.NonNull;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
+import javax.persistence.*;
 
-import javax.persistence.Id;
-import javax.persistence.Table;
 import javax.validation.constraints.Pattern;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Objects;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 
 
+@Entity
+@Tag(name = "Endereço")
+@Table(name = "address")
 public class Address implements Serializable {
-    @Pattern(regexp = "^\\d{5}-?\\d{3}$",
-            message = "CEP inválido. Insira um cep no formato 01001000 ou 01001-000")
+    @Id
+    @Column
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonIgnore
+    private long id;
+
+    @Column(unique = true)
+    @Pattern(regexp = "^(0[1-9]\\d{3}|[1-9]\\d{4})-?\\d{3}$")
     private String cep;
 
 
@@ -41,6 +50,12 @@ public class Address implements Serializable {
     private String estado;
 
 
+    @Column
+    @JsonProperty("frete")
+    @JsonSerialize(using = MoneySerializer.class)
+    private BigDecimal valorFrete;
+
+
 
     public Address() {
 
@@ -56,6 +71,29 @@ public class Address implements Serializable {
         this.estado = estado;
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(getCep(), getRua(), getComplemento(), getBairro(), getCidade(), getEstado(), getValorFrete());
+    }
+
+    public Address(String cep, String rua, String complemento, String bairro, String cidade, String estado, BigDecimal valorFrete) {
+        this.cep = cep;
+        this.rua = rua;
+        this.complemento = complemento;
+        this.bairro = bairro;
+        this.cidade = cidade;
+        this.estado = estado;
+        this.valorFrete = valorFrete;
+    }
+
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public String getCep() {
         return cep;
@@ -105,24 +143,22 @@ public class Address implements Serializable {
         this.estado = estado;
     }
 
-    @Override
-    public String toString() {
-        return "Address{" +
-                "cep='" + cep + '\'' +
-                ", rua='" + rua + '\'' +
-                ", complemento='" + complemento + '\'' +
-                ", bairro='" + bairro + '\'' +
-                ", cidade='" + cidade + '\'' +
-                ", estado='" + estado + '\'' +
-                '}';
+    public BigDecimal getValorFrete() {
+        return valorFrete;
     }
+
+    public void setValorFrete(BigDecimal valorFrete) {
+        this.valorFrete = valorFrete;
+    }
+
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Address address = (Address) o;
-        return getCep().equals(address.getCep()) && getRua().equals(address.getRua()) && getComplemento().equals(address.getComplemento()) && getBairro().equals(address.getBairro()) && getCidade().equals(address.getCidade()) && getEstado().equals(address.getEstado());
+        return Objects.equals(getCep(), address.getCep()) && Objects.equals(getRua(), address.getRua()) && Objects.equals(getComplemento(), address.getComplemento()) && Objects.equals(getBairro(), address.getBairro()) && Objects.equals(getCidade(), address.getCidade()) && Objects.equals(getEstado(), address.getEstado()) && Objects.equals(getValorFrete(), address.getValorFrete());
     }
+
 
 }

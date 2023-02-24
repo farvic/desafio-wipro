@@ -1,56 +1,65 @@
 package com.farvic.desafiowipro.services;
 
+import com.farvic.desafiowipro.data.AddressDaoImpl;
+import com.farvic.desafiowipro.data.AddressRepository;
 import com.farvic.desafiowipro.domain.Address;
-import com.farvic.desafiowipro.domain.AddressDto;
+import com.farvic.desafiowipro.dtos.AddressDto;
 import com.farvic.desafiowipro.errors.AddressNotFoundException;
-import com.farvic.desafiowipro.utils.CepRegionMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.web.client.RestTemplateBuilder;
+import com.farvic.desafiowipro.utils.CepUtils;
+import com.farvic.desafiowipro.utils.Region;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
-
-import javax.validation.Validator;
+import java.math.BigDecimal;
 import java.util.logging.Logger;
 
-
-
 @Service
-public class AddressServiceImpl implements AddressService{
+public class AddressServiceImpl implements AddressService {
+//    @Autowired
+    private final AddressRepository addressRepository;
+//    @Autowired
+    private final AddressDaoImpl enderecoDaoImpl;
 
-    @Autowired
-    private Validator validator;
+    final static Logger LOGGER = Logger.getLogger(AddressServiceImpl.class.getName());
 
-    final Logger LOGGER = Logger.getLogger(AddressServiceImpl.class.getName());
-
-    private final RestTemplate restTemplate;
-
-    public AddressServiceImpl(RestTemplateBuilder restTemplateBuilder) {
-        this.restTemplate = restTemplateBuilder.build();
+    public AddressServiceImpl(AddressRepository addressRepository, AddressDaoImpl enderecoDaoImpl) {
+        this.addressRepository = addressRepository;
+        this.enderecoDaoImpl = enderecoDaoImpl;
     }
+//    public AddressServiceImpl(AddressDaoImpl enderecoDaoImpl) {
+//        this.enderecoDaoImpl = enderecoDaoImpl;
+//    }
 
     @Override
-    public Address findAddressByCep(AddressDto cep) {
+    public Address getShippingByCep(AddressDto cep) {
 
-        String cepString = cep.getCep();
-        String url = "https://viacep.com.br/ws/" + cepString + "/json/";
-        Address address = new Address();
+        Address address;
+        BigDecimal shippingValue;
+        Region region;
+        String cepString;
 
-        if(cepString == null || !cepString.matches("^(0[1-9]\\d{3}|[1-9]\\d{4})-?\\d{3}$")){
-            throw new AddressNotFoundException("CEP inválido. Insira um cep no formato 01001000 ou 01001-000");
+        // Formata o CEP para o padrão 00000-000, evitando salvar duas vezes o mesmo CEP na base de dados.
+
+        cepString = CepUtils.formatCep(cep.getCep());
+
+        address = addressRepository.findByCep(cepString);
+
+        if(address != null){
+            LOGGER.info("O CEP já está cadastrado na nossa base de dados.");
+            return address;
         }
 
-        address = restTemplate.getForObject(url, Address.class);
-        assert address != null;
+        address =enderecoDaoImpl.findByCep(cepString);
 
         if(address.getCep() == null){
-            LOGGER.info("findAddressByCep: O CEP não foi encontrado");
             throw new AddressNotFoundException("O CEP não foi encontrado na nossa base de dados. Pedimos desculpas pelo transtorno.");
         }
 
-        String region = String.valueOf(CepRegionMapper.getRegion(address.getCep()));
-        LOGGER.info("findAddressByCep: Região do CEP: " + region);
+        region = Region.getRegionByCep(cepString);
+        shippingValue = region.getShippingValue();
+
+        address.setValorFrete(shippingValue);
+
+        addressRepository.save(address);
 
         return address;
-
     }
 }

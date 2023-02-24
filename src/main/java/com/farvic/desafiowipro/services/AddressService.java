@@ -1,9 +1,9 @@
 package com.farvic.desafiowipro.services;
 
 import com.farvic.desafiowipro.domain.Address;
-import com.farvic.desafiowipro.domain.AddressDto;
+import com.farvic.desafiowipro.dtos.AddressDto;
 
 public interface AddressService {
-    Address findAddressByCep(AddressDto cep);
+    Address getShippingByCep(AddressDto cep);
 
 }

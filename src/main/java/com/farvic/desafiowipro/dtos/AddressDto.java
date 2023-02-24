@@ -1,6 +1,8 @@
-package com.farvic.desafiowipro.domain;
+package com.farvic.desafiowipro.dtos;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 import java.io.Serializable;
@@ -8,7 +10,8 @@ import java.io.Serializable;
 public class AddressDto implements Serializable {
 
     @JsonProperty("cep")
-    @Pattern(regexp = "^\\d{5}-?\\d{3}$", message = "CEP inválido. Insira um cep no formato 01001000 ou 01001-000")
+    @NotNull
+    @Pattern(regexp = "^(0[1-9]\\d{3}|[1-9]\\d{4})-?\\d{3}$")
     private String cep;
 
     public AddressDto() {
@@ -25,4 +28,5 @@ public class AddressDto implements Serializable {
     public void setCep(String cep) {
         this.cep = cep;
     }
+
 }
