@@ -3,7 +3,6 @@ package com.farvic.desafiowipro.utils;
 import java.math.BigDecimal;
 
 import java.util.HashMap;
-import java.util.TreeMap;
 
 public class Region {
     private final BigDecimal shippingValue;

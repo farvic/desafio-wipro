@@ -1,47 +1,37 @@
-<!-- Improved compatibility of back to top link: See: https://github.com/othneildrew/Best-README-Template/pull/73 -->
-<a name="readme-top"></a>
+
+[![LinkedIn][linkedin-shield]][linkedin-url]   [![GitHub Workflow Status (with branch)](https://img.shields.io/github/actions/workflow/status/farvic/desafio-wipro/build_test_action.yml?branch=main&label=tests&logo=github&style=for-the-badge)](https://github.com/farvic/desafio-wipro/actions/workflows/build_test_action.yml)
 
 
-<!-- PROJECT SHIELDS -->
-<!--
-*** I'm using markdown "reference style" links for readability.
-*** Reference links are enclosed in brackets [ ] instead of parentheses ( ).
-*** See the bottom of this document for the declaration of the reference variables
-*** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
-*** https://www.markdownguide.org/basic-syntax/#reference-style-links
--->
-
-[![LinkedIn][linkedin-shield]][linkedin-url]
-
-[//]: # ([![GitHub Workflow Status &#40;with branch&#41;]&#40;https://img.shields.io/github/actions/workflow/status/farvic/spring-boot-template-repo/build_test_action.yml?branch=main&label=tests&logo=github&style=for-the-badge&#41;]&#40;https://github.com/farvic/spring-boot-template-repo/actions/workflows/build_test_action.yml&#41;)
 
 # WiPro - Desafio Bradesco
 
+<!-- TOC -->
 <!-- TABLE OF CONTENTS -->
 <details>
   <summary>Sumário</summary>
   <ol>
     <li>
-      <a href="#about-the-project">Sobre o projeto</a>
+      <a href="#sobre-o-projeto">Sobre o projeto</a>
     </li>
     <li>
-        <a href="#built-with">Built With</a>
+        <a href="#ferramentas-utilizadas">Ferramentas utilizadas</a>
     </li>
     <li>
-        <a href="#topics-covered-in-this-template">Topics covered in this template</a>
+        <a href="#o-problema">O problema</a>
+        <ul><a href="#cep-no-formato-válido-com-endereço-encontrado">CEP no formato válido, com endereço encontrado</a></ul>
+        <ul><a href="#cep-no-formato-válido-com-endereço-não-encontrado">CEP no formato válido, com endereço não encontrado</a></ul>
+        <ul><a href=#cep-no-formato-inválido-ou-requisição-inválida--sem-o-parâmetro-cep->CEP no formato inválido ou requisição inválida (sem o parâmetro cep)</a></ul>
+        <ul><a href=#busca-por-regiãofrete>Busca por região/frete</a></ul>
     <li>
-        <a href="#getting-started">Getting Started</a>
+        <a href="#execução">Execução</a>
     </li>
     <li>
-        <a href="#roadmap">Roadmap</a>
-    </li>
-    <li>
-        <a href="#contact">Contact</a>
+        <a href="#contato">Contato</a>
     </li>
   </ol>
 </details>
 
-<!-- ABOUT THE PROJECT -->
+<!-- SOBRE O PROJETO -->
 ## Sobre o projeto
 
 O projeto foi desenvolvido com o intuito de atender o desafio proposto no processo seletivo da WiPro.
@@ -74,15 +64,6 @@ para o cliente.
 * [Postman](https://www.postman.com/)
 * [IntelliJ IDEA](https://www.jetbrains.com/pt-br/idea/)
 
-
-## Topics covered in this template
-
-* REST API
-* Domain-Driven Design
-* Tests with JUnit Jupiter, MockMvc and Mockito
-* Databases with H2 embedded database
-* Custom Exception Handling
-* Swagger UI API
 
 ## O problema
 
@@ -165,11 +146,11 @@ public static Region getRegionByState(String state) {
 <!-- Execução -->
 ## Execução
 
-1. . Clone o repositório
+1.  Clone o repositório
 
-   ```sh
-   Clone o repositório: https://github.com/farvic/desafio-wipro
-   ```
+       ```sh
+       Clone o repositório: https://github.com/farvic/desafio-wipro
+       ```
 
 2. Utilize a IDE ou o seguinte comando do Maven para executar o projeto
 
@@ -182,6 +163,10 @@ public static Region getRegionByState(String state) {
    ```bash
    mvn test
    ```
+    Para checar os resultados, também é possível clicar na insígnia no topo que direciona para o Github Actions:
+
+    [![GitHub Workflow Status (with branch)](https://img.shields.io/github/actions/workflow/status/farvic/desafio-wipro/build_test_action.yml?branch=main&label=tests&logo=github&style=for-the-badge)](https://github.com/farvic/desafio-wipro/actions/workflows/build_test_action.yml)
+
 
 4. Ao rodar o projeto, a documentação da API pode ser acessada através do link: [localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html)
 
@@ -192,32 +177,6 @@ disponibilizado no prompt, como no exemplo:
 ![Exemplo do link de resultados do teste do cucumber https://reports.cucumber.io/reports/{token}](/imagens/cucumber-exemplo.png "Exemplo do link de resultados dos testes de integração")
 
 
-
-
-[//]: # ()
-[//]: # ([//]: # &#40;CONTRIBUTING&#41;)
-[//]: # ()
-[//]: # (## Contributing)
-
-[//]: # ()
-[//]: # (Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.)
-
-[//]: # ()
-[//]: # (If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".)
-
-[//]: # (Don't forget to give the project a star! Thanks again!)
-
-[//]: # ()
-[//]: # (1. Fork the Project)
-
-[//]: # (2. Create your Feature Branch &#40;`git checkout -b feature/AmazingFeature`&#41;)
-
-[//]: # (3. Commit your Changes &#40;`git commit -m 'Add some AmazingFeature'`&#41;)
-
-[//]: # (4. Push to the Branch &#40;`git push origin feature/AmazingFeature`&#41;)
-
-[//]: # (5. Open a Pull Request)
-
 <!-- Contato -->
 ## Contato
 
@@ -226,8 +185,6 @@ Caso queira falar sobre o projeto, entre em contato comigo por aqui ou pelo Link
 Victor Fonseca -  [@Linkedin](https://www.linkedin.com/in/victorfa)
 
 
-
-<p align="right">(<a href="#readme-top">voltar ao topo</a>)</p>
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->

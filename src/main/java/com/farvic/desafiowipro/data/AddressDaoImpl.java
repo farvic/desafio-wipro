@@ -11,8 +11,6 @@ public class AddressDaoImpl implements AddressDao {
 
     private final RestTemplate restTemplate;
 
-
-
     public AddressDaoImpl(RestTemplateBuilder restTemplateBuilder) {
         this.restTemplate = restTemplateBuilder.build();
     }
