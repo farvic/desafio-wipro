@@ -5,17 +5,20 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 import javax.persistence.*;
 
 import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Objects;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 
 
 @Entity
+@Tag(name = "Endereço")
 @Table(name = "address")
 public class Address implements Serializable {
     @Id
@@ -23,6 +26,8 @@ public class Address implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonIgnore
     private long id;
+
+    @Column(unique = true)
     @Pattern(regexp = "^(0[1-9]\\d{3}|[1-9]\\d{4})-?\\d{3}$")
     private String cep;
 
@@ -64,6 +69,21 @@ public class Address implements Serializable {
         this.bairro = bairro;
         this.cidade = cidade;
         this.estado = estado;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getCep(), getRua(), getComplemento(), getBairro(), getCidade(), getEstado(), getValorFrete());
+    }
+
+    public Address(String cep, String rua, String complemento, String bairro, String cidade, String estado, BigDecimal valorFrete) {
+        this.cep = cep;
+        this.rua = rua;
+        this.complemento = complemento;
+        this.bairro = bairro;
+        this.cidade = cidade;
+        this.estado = estado;
+        this.valorFrete = valorFrete;
     }
 
 
@@ -137,7 +157,8 @@ public class Address implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Address address = (Address) o;
-        return getCep().equals(address.getCep()) && getRua().equals(address.getRua()) && getComplemento().equals(address.getComplemento()) && getBairro().equals(address.getBairro()) && getCidade().equals(address.getCidade()) && getEstado().equals(address.getEstado());
+        return Objects.equals(getCep(), address.getCep()) && Objects.equals(getRua(), address.getRua()) && Objects.equals(getComplemento(), address.getComplemento()) && Objects.equals(getBairro(), address.getBairro()) && Objects.equals(getCidade(), address.getCidade()) && Objects.equals(getEstado(), address.getEstado()) && Objects.equals(getValorFrete(), address.getValorFrete());
     }
+
 
 }

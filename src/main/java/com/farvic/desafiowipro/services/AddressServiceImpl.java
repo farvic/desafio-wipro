@@ -7,18 +7,26 @@ import com.farvic.desafiowipro.dtos.AddressDto;
 import com.farvic.desafiowipro.errors.AddressNotFoundException;
 import com.farvic.desafiowipro.utils.CepUtils;
 import com.farvic.desafiowipro.utils.Region;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
+import java.util.logging.Logger;
 
 @Service
 public class AddressServiceImpl implements AddressService {
-    @Autowired
-    private AddressRepository addressRepository;
+//    @Autowired
+    private final AddressRepository addressRepository;
+//    @Autowired
     private final AddressDaoImpl enderecoDaoImpl;
-    public AddressServiceImpl(AddressDaoImpl enderecoDaoImpl) {
+
+    final static Logger LOGGER = Logger.getLogger(AddressServiceImpl.class.getName());
+
+    public AddressServiceImpl(AddressRepository addressRepository, AddressDaoImpl enderecoDaoImpl) {
+        this.addressRepository = addressRepository;
         this.enderecoDaoImpl = enderecoDaoImpl;
     }
+//    public AddressServiceImpl(AddressDaoImpl enderecoDaoImpl) {
+//        this.enderecoDaoImpl = enderecoDaoImpl;
+//    }
 
     @Override
     public Address getShippingByCep(AddressDto cep) {
@@ -28,11 +36,14 @@ public class AddressServiceImpl implements AddressService {
         Region region;
         String cepString;
 
+        // Formata o CEP para o padrão 00000-000, evitando salvar duas vezes o mesmo CEP na base de dados.
+
         cepString = CepUtils.formatCep(cep.getCep());
 
         address = addressRepository.findByCep(cepString);
 
         if(address != null){
+            LOGGER.info("O CEP já está cadastrado na nossa base de dados.");
             return address;
         }
 
