@@ -24,6 +24,7 @@
         <ul><a href=#busca-por-regiãofrete>Busca por região/frete</a></ul>
     <li>
         <a href="#execução">Execução</a>
+        <ul><a href="#testes-do-cucumber">Testes do Cucumber</a></ul>
     </li>
     <li>
         <a href="#contato">Contato</a>
@@ -170,7 +171,9 @@ public static Region getRegionByState(String state) {
 
 4. Ao rodar o projeto, a documentação da API pode ser acessada através do link: [localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html)
 
-5. Ao rodar os testes de integração do cucumber, os resultados podem ser acessados através do link
+### Testes do Cucumber
+
+Ao rodar os testes de integração do cucumber, os resultados podem ser acessados através do link
 disponibilizado no prompt, como no exemplo:
 
 
