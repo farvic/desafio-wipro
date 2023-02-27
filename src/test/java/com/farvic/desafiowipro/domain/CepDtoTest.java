@@ -1,6 +1,6 @@
 package com.farvic.desafiowipro.domain;
 
-import com.farvic.desafiowipro.dtos.AddressDto;
+import com.farvic.desafiowipro.dtos.CepDto;
 import org.junit.jupiter.api.Test;
 
 import java.util.Set;
@@ -19,7 +19,7 @@ import javax.validation.ValidatorFactory;
 
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class AddressDtoTest {
+class CepDtoTest {
 
     private Validator validator;
 
@@ -32,10 +32,10 @@ class AddressDtoTest {
     @Test
     void testGetAddress() {
         // Setup
-        AddressDto addressDto = new AddressDto("01001-000");
+        CepDto cepDto = new CepDto("01001-000");
 
         // Run the test
-        final String result = addressDto.getCep();
+        final String result = cepDto.getCep();
 
         // Verify the results
         assertEquals("01001-000", result);
@@ -44,24 +44,24 @@ class AddressDtoTest {
     @Test
     void testSetAddress() {
         // Setup
-        AddressDto addressDto = new AddressDto("01001-000");
+        CepDto cepDto = new CepDto("01001-000");
 
         // Run the test
-        addressDto.setCep("01001-555");
+        cepDto.setCep("01001-555");
 
         // Verify the results
-        assertEquals("01001-555", addressDto.getCep());
+        assertEquals("01001-555", cepDto.getCep());
     }
 
     @Test
     void testValidCep() {
         // Setup
-        AddressDto addressDto = new AddressDto("01001-000");
+        CepDto cepDto = new CepDto("01001-000");
         // Run the test
-        Set<ConstraintViolation<AddressDto>> violations = validator.validate(addressDto);
+        Set<ConstraintViolation<CepDto>> violations = validator.validate(cepDto);
 
         // Verify the results
-        assertEquals("01001-000", addressDto.getCep());
+        assertEquals("01001-000", cepDto.getCep());
         assertTrue(violations.isEmpty());
     }
 
@@ -69,23 +69,23 @@ class AddressDtoTest {
     void testValidCepWithNumbers() {
 
         // Setup
-        AddressDto addressDto = new AddressDto("01001000");
+        CepDto cepDto = new CepDto("01001000");
 
         // Run the test
-        Set<ConstraintViolation<AddressDto>> violations = validator.validate(addressDto);
+        Set<ConstraintViolation<CepDto>> violations = validator.validate(cepDto);
 
         // Verify the results
-        assertEquals("01001000", addressDto.getCep());
+        assertEquals("01001000", cepDto.getCep());
         assertTrue(violations.isEmpty());
     }
 
     @Test
     void testInvalidCep() {
         // Setup
-        AddressDto address = new AddressDto("0100-1000");
+        CepDto address = new CepDto("0100-1000");
 
         // Run the test
-        Set<ConstraintViolation<AddressDto>> violations = validator.validate(address);
+        Set<ConstraintViolation<CepDto>> violations = validator.validate(address);
 
         // Verify the results
         assertFalse(violations.isEmpty());

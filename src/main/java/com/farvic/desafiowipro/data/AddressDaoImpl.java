@@ -1,6 +1,7 @@
 package com.farvic.desafiowipro.data;
 
 import com.farvic.desafiowipro.domain.Address;
+import com.farvic.desafiowipro.dtos.AddressDto;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.client.RestTemplate;
@@ -15,10 +16,10 @@ public class AddressDaoImpl implements AddressDao {
         this.restTemplate = restTemplateBuilder.build();
     }
     @Override
-    public Address findByCep(String cep) {
+    public AddressDto findByCep(String cep) {
 
         String url = "https://viacep.com.br/ws/" + cep + "/json/";
 
-        return restTemplate.getForObject(url, Address.class);
+        return restTemplate.getForObject(url, AddressDto.class);
     }
 }

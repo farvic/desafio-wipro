@@ -9,14 +9,9 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import org.junit.Rule;
-import org.junit.rules.ExpectedException;
-import org.skyscreamer.jsonassert.JSONParser;
-import org.springframework.http.ResponseEntity;
+
 import org.springframework.web.client.HttpClientErrorException;
 
-import java.math.BigDecimal;
-import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -34,12 +29,12 @@ public class StepDefs extends SpringIntegrationTest {
         executeTest(clientCep);
     }
 
-    // Cidade: São Paulo
+    // City: São Paulo
     @Then("the client should receive an address in {string}")
-    public void i_should_get_the_response(String cidade) {
+    public void i_should_get_the_response(String city) {
         Address address = response.getBody();
         assert address != null;
-        assertEquals(cidade, address.getCidade());
+        assertEquals(city, address.getCity());
     }
 
     // Usei double no teste, pois o cucumber não aceita BigDecimal e não haveria prejuízo
@@ -48,7 +43,7 @@ public class StepDefs extends SpringIntegrationTest {
     public void theShippingValueShouldBe(double shipping) {
         Address address = response.getBody();
         assert address != null;
-        assertEquals(shipping, address.getValorFrete().doubleValue());
+        assertEquals(shipping, address.getShipping().doubleValue());
     }
 
     // Fluxo cep inválido

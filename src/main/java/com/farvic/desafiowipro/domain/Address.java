@@ -14,6 +14,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
 
+
 @JsonIgnoreProperties(ignoreUnknown = true)
 
 
@@ -33,27 +34,29 @@ public class Address implements Serializable {
 
 
     @Column
-    @JsonProperty("logradouro")
-    private String rua;
+    @JsonProperty("rua")
+    private String street;
 
     @Column
-    private String complemento;
+    @JsonProperty("complemento")
+    private String complement;
 
     @Column
-    private String bairro;
+    @JsonProperty("bairro")
+    private String neighborhood;
     @Column
-    @JsonProperty("localidade")
-    private String cidade;
+    @JsonProperty("cidade")
+    private String city;
 
     @Column
-    @JsonProperty("uf")
-    private String estado;
+    @JsonProperty("estado")
+    private String state;
 
 
     @Column
     @JsonProperty("frete")
     @JsonSerialize(using = MoneySerializer.class)
-    private BigDecimal valorFrete;
+    private BigDecimal shipping;
 
 
 
@@ -61,29 +64,23 @@ public class Address implements Serializable {
 
     }
 
-
-    public Address(String cep, String rua, String complemento, String bairro, String cidade, String estado) {
+    public Address(String cep, String street, String complement, String neighborhood, String city, String state, BigDecimal shipping) {
         this.cep = cep;
-        this.rua = rua;
-        this.complemento = complemento;
-        this.bairro = bairro;
-        this.cidade = cidade;
-        this.estado = estado;
+        this.street = street;
+        this.complement = complement;
+        this.neighborhood = neighborhood;
+        this.city = city;
+        this.state = state;
+        this.shipping = shipping;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(getCep(), getRua(), getComplemento(), getBairro(), getCidade(), getEstado(), getValorFrete());
-    }
-
-    public Address(String cep, String rua, String complemento, String bairro, String cidade, String estado, BigDecimal valorFrete) {
+    public Address(String cep, String street, String complement, String neighborhood, String city, String state) {
         this.cep = cep;
-        this.rua = rua;
-        this.complemento = complemento;
-        this.bairro = bairro;
-        this.cidade = cidade;
-        this.estado = estado;
-        this.valorFrete = valorFrete;
+        this.street = street;
+        this.complement = complement;
+        this.neighborhood = neighborhood;
+        this.city = city;
+        this.state = state;
     }
 
 
@@ -103,62 +100,64 @@ public class Address implements Serializable {
         this.cep = cep;
     }
 
-    public String getRua() {
-        return rua;
+    public String getStreet() {
+        return street;
     }
 
-    public void setRua(String rua) {
-        this.rua = rua;
+    public void setStreet(String street) {
+        this.street = street;
     }
 
-    public String getComplemento() {
-        return complemento;
+    public String getComplement() {
+        return complement;
     }
 
-    public void setComplemento(String complemento) {
-        this.complemento = complemento;
+    public void setComplement(String complement) {
+        this.complement = complement;
     }
 
-    public String getBairro() {
-        return bairro;
+    public String getNeighborhood() {
+        return neighborhood;
     }
 
-    public void setBairro(String bairro) {
-        this.bairro = bairro;
+    public void setNeighborhood(String neighborhood) {
+        this.neighborhood = neighborhood;
     }
 
-    public String getCidade() {
-        return cidade;
+    public String getCity() {
+        return city;
     }
 
-    public void setCidade(String cidade) {
-        this.cidade = cidade;
+    public void setCity(String city) {
+        this.city = city;
     }
 
-    public String getEstado() {
-        return estado;
+    public String getState() {
+        return state;
     }
 
-    public void setEstado(String estado) {
-        this.estado = estado;
+    public void setState(String state) {
+        this.state = state;
     }
 
-    public BigDecimal getValorFrete() {
-        return valorFrete;
+    public BigDecimal getShipping() {
+        return shipping;
     }
 
-    public void setValorFrete(BigDecimal valorFrete) {
-        this.valorFrete = valorFrete;
+    public void setShipping(BigDecimal shipping) {
+        this.shipping = shipping;
     }
-
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Address address = (Address) o;
-        return Objects.equals(getCep(), address.getCep()) && Objects.equals(getRua(), address.getRua()) && Objects.equals(getComplemento(), address.getComplemento()) && Objects.equals(getBairro(), address.getBairro()) && Objects.equals(getCidade(), address.getCidade()) && Objects.equals(getEstado(), address.getEstado()) && Objects.equals(getValorFrete(), address.getValorFrete());
+        return getCep().equals(address.getCep()) && Objects.equals(getStreet(), address.getStreet()) && Objects.equals(getComplement(), address.getComplement()) && getNeighborhood().equals(address.getNeighborhood()) && getCity().equals(address.getCity()) && getState().equals(address.getState()) && getShipping().equals(address.getShipping());
     }
 
-
+    @Override
+    public int hashCode() {
+        return Objects.hash(getCep(), getStreet(), getComplement(), getNeighborhood(), getCity(), getState(), getShipping());
+    }
 }

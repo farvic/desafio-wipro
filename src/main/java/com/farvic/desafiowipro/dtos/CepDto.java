@@ -7,17 +7,17 @@ import javax.validation.constraints.Pattern;
 
 import java.io.Serializable;
 
-public class AddressDto implements Serializable {
+public class CepDto implements Serializable {
 
     @JsonProperty("cep")
     @NotNull
     @Pattern(regexp = "^(0[1-9]\\d{3}|[1-9]\\d{4})-?\\d{3}$")
     private String cep;
 
-    public AddressDto() {
+    public CepDto() {
     }
 
-    public AddressDto(String cep) {
+    public CepDto(String cep) {
         this.cep = cep;
     }
 

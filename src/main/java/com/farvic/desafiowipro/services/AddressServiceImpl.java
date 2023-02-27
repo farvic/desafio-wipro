@@ -4,7 +4,9 @@ import com.farvic.desafiowipro.data.AddressDaoImpl;
 import com.farvic.desafiowipro.data.AddressRepository;
 import com.farvic.desafiowipro.domain.Address;
 import com.farvic.desafiowipro.dtos.AddressDto;
+import com.farvic.desafiowipro.dtos.CepDto;
 import com.farvic.desafiowipro.errors.AddressNotFoundException;
+import com.farvic.desafiowipro.utils.AddressDtoMapper;
 import com.farvic.desafiowipro.utils.CepUtils;
 import com.farvic.desafiowipro.utils.Region;
 import org.springframework.stereotype.Service;
@@ -24,13 +26,12 @@ public class AddressServiceImpl implements AddressService {
         this.addressRepository = addressRepository;
         this.enderecoDaoImpl = enderecoDaoImpl;
     }
-//    public AddressServiceImpl(AddressDaoImpl enderecoDaoImpl) {
-//        this.enderecoDaoImpl = enderecoDaoImpl;
-//    }
+
 
     @Override
-    public Address getShippingByCep(AddressDto cep) {
+    public Address getShippingByCep(CepDto cep) {
 
+        AddressDto addressResponse;
         Address address;
         BigDecimal shippingValue;
         Region region;
@@ -47,16 +48,18 @@ public class AddressServiceImpl implements AddressService {
             return address;
         }
 
-        address =enderecoDaoImpl.findByCep(cepString);
+        addressResponse =enderecoDaoImpl.findByCep(cepString);
 
-        if(address.getCep() == null){
+        if(addressResponse.getCep() == null){
             throw new AddressNotFoundException("O CEP não foi encontrado na nossa base de dados. Pedimos desculpas pelo transtorno.");
         }
 
-        region = Region.getRegionByState(address.getEstado());
+        region = Region.getRegionByState(addressResponse.getState());
         shippingValue = region.getShippingValue();
 
-        address.setValorFrete(shippingValue);
+        address = AddressDtoMapper.toEntity(addressResponse);
+
+        address.setShipping(shippingValue);
 
         addressRepository.save(address);
 

@@ -8,6 +8,7 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
+import java.math.BigDecimal;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -21,7 +22,7 @@ class AddressTest {
 
     @BeforeEach
     void setUp() {
-        addressUnderTest = new Address("01001-000", "Praça da Sé", "lado ímpar", "Sé", "São Paulo", "SP");
+        addressUnderTest = new Address("01001-000", "Praça da Sé", "lado ímpar", "Sé", "São Paulo", "SP", new BigDecimal("7.85"));
     }
 
     @BeforeAll
@@ -35,11 +36,12 @@ class AddressTest {
         // Setup
         Address sameAdress = new Address();
         sameAdress.setCep("01001-000");
-        sameAdress.setRua("Praça da Sé");
-        sameAdress.setComplemento("lado ímpar");
-        sameAdress.setBairro("Sé");
-        sameAdress.setCidade("São Paulo");
-        sameAdress.setEstado("SP");
+        sameAdress.setStreet("Praça da Sé");
+        sameAdress.setComplement("lado ímpar");
+        sameAdress.setNeighborhood("Sé");
+        sameAdress.setCity("São Paulo");
+        sameAdress.setState("SP");
+        sameAdress.setShipping(new BigDecimal("7.85"));
 
 
         // Verify the results
@@ -51,22 +53,22 @@ class AddressTest {
         // Setup
         Address sameAdress = new Address();
         sameAdress.setCep("01001-000");
-        sameAdress.setRua("Praça da Sé");
-        sameAdress.setComplemento("lado ímpar");
-        sameAdress.setBairro("Sé");
-        sameAdress.setCidade("São Paulo");
-        sameAdress.setEstado("SP");
+        sameAdress.setStreet("Praça da Sé");
+        sameAdress.setComplement("lado ímpar");
+        sameAdress.setNeighborhood("Sé");
+        sameAdress.setCity("São Paulo");
+        sameAdress.setState("SP");
 
         Set<ConstraintViolation<Address>> violations = validator.validate(addressUnderTest);
 
         // Verify the results
         assertTrue(violations.isEmpty());
         assertEquals(sameAdress.getCep(), addressUnderTest.getCep());
-        assertEquals(sameAdress.getRua(), addressUnderTest.getRua());
-        assertEquals(sameAdress.getComplemento(), addressUnderTest.getComplemento());
-        assertEquals(sameAdress.getBairro(), addressUnderTest.getBairro());
-        assertEquals(sameAdress.getCidade(), addressUnderTest.getCidade());
-        assertEquals(sameAdress.getEstado(), addressUnderTest.getEstado());
+        assertEquals(sameAdress.getStreet(), addressUnderTest.getStreet());
+        assertEquals(sameAdress.getComplement(), addressUnderTest.getComplement());
+        assertEquals(sameAdress.getNeighborhood(), addressUnderTest.getNeighborhood());
+        assertEquals(sameAdress.getCity(), addressUnderTest.getCity());
+        assertEquals(sameAdress.getState(), addressUnderTest.getState());
 
     }
 

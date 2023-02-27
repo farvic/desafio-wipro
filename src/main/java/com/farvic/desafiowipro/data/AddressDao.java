@@ -1,8 +1,8 @@
 package com.farvic.desafiowipro.data;
 
-import com.farvic.desafiowipro.domain.Address;
+import com.farvic.desafiowipro.dtos.AddressDto;
 
 public interface AddressDao {
-    Address findByCep(String cep);
+    AddressDto findByCep(String cep);
 
 }
